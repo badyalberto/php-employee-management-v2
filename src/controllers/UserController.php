@@ -10,8 +10,13 @@ class UserController extends Controller
 		$this->model = new UserModel();
 	}
 
-	protected function get()
+	protected function login()
 	{
-		echo "Se ha ejecutado el método get de user";
+		echo "Se ha ejecutado el método login de user";
+	}
+
+	protected function logout()
+	{
+		echo "Se ha ejecutado el método logout de user";
 	}
 }

@@ -13,8 +13,7 @@
 </head>
 
 <body class="text-center">
-
-	<form class="form-signin align-items-center" action="./src/library/loginManager.php" method="POST">
+	<form class="form-signin align-items-center" action="/user/login" method="POST">
 		<img class="mb-4" src="./node_modules/bootstrap-icons/icons/box-arrow-in-right.svg" alt="" width="80" height="80" />
 		<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 		<label for="inputName" class="sr-only">User Name</label>
@@ -26,7 +25,6 @@
 		</button>
 	</form>
 	<p class="mt-5 mb-3 text-muted">PHP Employee Management</p>
-	<script src="./assets/js/userGet.js"></script>
 </body>
 
 </html>

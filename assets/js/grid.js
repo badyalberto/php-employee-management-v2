@@ -7,7 +7,6 @@ import { controller } from "./gridController.js";
 
 	$("#grid-table").jsGrid({
 		width: "100%",
-		height: "600px",
 
 		heading: true,
 		inserting: true,
@@ -20,7 +19,7 @@ import { controller } from "./gridController.js";
 		pageIndex: 1,
 		pageSize: 10,
 		pageButtonCount: 15,
-		pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
+		pagerFormat: "Pages: {first} {prev} {pages} {next} {last} {pageIndex} of {pageCount}",
 		pagePrevText: "Prev",
 		pageNextText: "Next",
 		pageFirstText: "First",
@@ -28,24 +27,24 @@ import { controller } from "./gridController.js";
 		pageNavigatorNextText: "...",
 		pageNavigatorPrevText: "...",
 
-		//controller: controller,
+		controller: controller,
 
 		fields: [
 			{
-				title: "",
-				name: "id",
+				title: "employee_id",
+				name: "employee_id",
 				type: "number",
 				css: "d-none",
 			},
 			{
 				title: "First Name",
-				name: "name",
+				name: "first_name",
 				type: "text",
 				validate: "required",
 			},
 			{
 				title: "Last Name",
-				name: "lastname",
+				name: "last_name",
 				type: "text",
 				validate: "required",
 			},
@@ -59,22 +58,20 @@ import { controller } from "./gridController.js";
 				title: "Gender",
 				name: "gender",
 				type: "text",
+				validate: function (value) {
+					return ["M", "F"].includes(value);
+				},
+			},
+			{
+				title: "Street",
+				name: "street",
+				type: "text",
 				validate: "required",
 			},
 			{
 				title: "Age",
 				name: "age",
-				type: "text",
-				validate: function (value) {
-					if (value > 18) {
-						return true;
-					}
-				},
-			},
-			{
-				title: "address",
-				name: "Address",
-				type: "text",
+				type: "number",
 				validate: "required",
 			},
 			{
@@ -91,13 +88,13 @@ import { controller } from "./gridController.js";
 			},
 			{
 				title: "Postal Code",
-				name: "postalcode",
+				name: "postal_code",
 				type: "text",
 				validate: "required",
 			},
 			{
 				title: "Phone Number",
-				name: "phone",
+				name: "phone_number",
 				type: "text",
 				validate: "required",
 			},

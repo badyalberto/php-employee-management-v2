@@ -1,55 +1,86 @@
-const controller = {
-	loadData: function (get) {
-		return $.ajax({
+export const controller = {
+	loadData: function (item) {
+		const d = $.Deferred();
+
+		$.ajax({
 			type: "GET",
 			url: "./employee/getAll",
 			dataType: "json",
-			data: get,
-			success: function (get) {
-				console.log(get);
+			data: item,
+			success: function (response) {
+				d.resolve(response.data);
 			},
-			error: function (get) {
-				console.log(get);
+			error: function (xhr, exception) {
+				console.log(`Error: ${xhr} ${exception}`);
 			},
 		});
+
+		return d.promise();
 	},
-	insertItem: function (post) {
-		return $.ajax({
+	insertItem: function (item) {
+		const d = $.Deferred();
+
+		$.ajax({
 			type: "POST",
 			url: "./employee/create",
 			dataType: "json",
-			data: post,
+			data: item,
+			success: function (response) {
+				if (response.type === "danger") {
+					d.reject();
+				} else {
+					d.resolve(response.data);
+				}
+			},
+			error: function (xhr) {
+				d.reject();
+			},
 		});
+
+		return d.promise();
 	},
 	updateItem: function (item) {
-		console.log(item);
-		return $.ajax({
-			type: "PUT",
+		const d = $.Deferred();
+
+		$.ajax({
+			type: "POST",
 			url: "./employee/update",
 			dataType: "json",
 			data: item,
-			success: function (item) {
-				console.log(item);
+			success: function (response) {
+				if (response.type === "danger") {
+					d.reject();
+				} else {
+					d.resolve(response.data);
+				}
 			},
-			error: function (request, error) {
-				console.log(error);
-				console.log(request);
+			error: function (xhr) {
+				d.reject();
 			},
 		});
+
+		return d.promise();
 	},
 	deleteItem: function (item) {
-		return $.ajax({
-			type: "DELETE",
+		const d = $.Deferred();
+
+		$.ajax({
+			type: "POST",
 			url: "./employee/delete",
 			dataType: "json",
 			data: item,
-			success: function (item) {
-				console.log(item);
+			success: function (response) {
+				if (response.type === "danger") {
+					d.reject();
+				} else {
+					d.resolve(response.data);
+				}
 			},
-			error: function (request, error) {
-				console.log(error);
-				console.log(request);
+			error: function (xhr) {
+				d.reject();
 			},
 		});
+
+		return d.promise();
 	},
 };

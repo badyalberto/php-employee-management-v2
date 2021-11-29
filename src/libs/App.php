@@ -23,9 +23,9 @@ class App
 				echo $e->getMessage();
 			}
 		} else {
-			$logged = true;
+			$logged = false;
 
-			if (!$logged) {
+			if ($logged) {
 				require_once VIEWS . "login.php";
 			} else {
 				require_once VIEWS . "Employee/dashboard.php";

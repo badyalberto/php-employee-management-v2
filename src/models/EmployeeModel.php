@@ -186,10 +186,32 @@ class EmployeeModel extends Model
 		}
 	}
 
-	public function get()
+	public function get($params)
 	{
 		try {
+			$connection = $this->database->getDatabaseConnection();
+
+			$query = "
+				SELECT e.employee_id, first_name, last_name, age, gender, email, phone_number, hire_date, street, city, postal_code, state
+				FROM employee e
+				LEFT JOIN address a ON e.id = a.employee_id
+				WHERE e.employee_id = :employee_id
+			;";
+
+			$statment = $connection->prepare($query);
+			$statment->bindParam(":employee_id", $params["employee_id"]);
+			$statment->execute();
+			$data = $statment->fetchAll();
+
+			return [
+				"data" => $data,
+				"error" => null
+			];
 		} catch (Exception $e) {
+			return [
+				"data" => $data,
+				"error" => $e->getMessage(),
+			];
 		}
 	}
 

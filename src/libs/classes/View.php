@@ -1,16 +1,13 @@
 <?php
 
-abstract class View
+class View
 {
-	protected $template;
-	protected $params;
-
-	public function __construct(array $params = [])
+	public function render(string $name, array $params)
 	{
-		$this->params = $params;
-	}
+		$fullpath = VIEWS . $name . ".php";
 
-	protected function render()
-	{
+		if (!file_exists($fullpath)) throw new Exception("Path for the view file does not exist.");
+
+		require_once $fullpath;
 	}
 }

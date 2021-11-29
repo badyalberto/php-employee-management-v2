@@ -28,7 +28,7 @@ class App
 			if ($logged) {
 				require_once VIEWS . "login.php";
 			} else {
-				require_once VIEWS . "Employee/dashboard.php";
+				require_once VIEWS . "Employee/index.php";
 			}
 		}
 	}

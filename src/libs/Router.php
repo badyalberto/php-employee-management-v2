@@ -14,6 +14,7 @@ class Router
 			$url = trim($url, '/');
 			$url = explode('/', $url);
 
+
 			$this->controllerName = $url[0] ?? null;
 			$this->actionName = 		$url[1] ?? null;
 			$this->id = 						$url[2] ?? null;

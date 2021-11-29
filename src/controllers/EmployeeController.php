@@ -1,6 +1,7 @@
 <?php
 
 require_once CLASSES . "Controller.php";
+require_once CLASSES . "View.php";
 require_once MODELS . "EmployeeModel.php";
 
 class EmployeeController extends Controller
@@ -8,6 +9,7 @@ class EmployeeController extends Controller
 	public function __construct()
 	{
 		$this->model = new EmployeeModel();
+		$this->view = new View();
 	}
 
 	// Metodos que devuelven JSON
@@ -17,7 +19,7 @@ class EmployeeController extends Controller
 		$result = $this->model->create($params);
 
 		if (!$result["error"]) {
-			echo json_encode(["type" => "success", "message" => "Employee created successfully."]);
+			echo json_encode(["type" => "success", "message" => "Employee created successfully.", "data" => null]);
 		} else {
 			echo json_encode(["type" => "danger", "message" => "Employee could not be created.", "error" => $result["error"]]);
 		}
@@ -45,12 +47,7 @@ class EmployeeController extends Controller
 		}
 	}
 
-	protected function get($params)
-	{
-		echo "Se ha ejecutado el método get de employee";
-	}
-
-	protected function getAll($params)
+	protected function getAll()
 	{
 		$result = $this->model->getAll();
 
@@ -63,13 +60,17 @@ class EmployeeController extends Controller
 
 	// Métodos que devuelven la página
 
-	protected function employee($params)
+	protected function new()
 	{
-		echo "Se ha ejecutado el método employee de employee";
+		$result = [];
+
+		$this->view->render("Employee/new", $result);
 	}
 
-	protected function dashboard($params)
+	protected function index()
 	{
-		echo "Se ha ejecutado el método dashboard de employee";
+		$result = [];
+
+		$this->view->render("Employee/index", $result);
 	}
 }

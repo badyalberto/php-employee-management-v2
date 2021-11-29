@@ -19,7 +19,7 @@ class EmployeeController extends Controller
 		if (!$result["error"]) {
 			echo json_encode(["type" => "success", "message" => "Employee created successfully."]);
 		} else {
-			echo json_encode(["type" => "danger", "message" => "Employees could not be created.", "error" => $result["error"]]);
+			echo json_encode(["type" => "danger", "message" => "Employee could not be created.", "error" => $result["error"]]);
 		}
 	}
 
@@ -30,13 +30,19 @@ class EmployeeController extends Controller
 		if (!$result["error"]) {
 			echo json_encode(["type" => "success", "message" => "Employee updated successfully."]);
 		} else {
-			echo json_encode(["type" => "danger", "message" => "Employees could not be updated.", "error" => $result["error"]]);
+			echo json_encode(["type" => "danger", "message" => "Employee could not be updated.", "error" => $result["error"]]);
 		}
 	}
 
 	protected function delete($params)
 	{
-		echo "Se ha ejecutado el método delete de employee";
+		$result = $this->model->delete($params);
+
+		if (!$result["error"]) {
+			echo json_encode(["type" => "success", "message" => "Employee deleted successfully."]);
+		} else {
+			echo json_encode(["type" => "danger", "message" => "Employee could not be deleted.", "error" => $result["error"]]);
+		}
 	}
 
 	protected function get($params)

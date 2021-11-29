@@ -13,5 +13,14 @@
     "bootstrap-icons": "^1.0.0-alpha4",
     "jquery": "^3.6.0",
     "jsgrid": "^1.5.3"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/badyalberto/php-employee-management-v2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/badyalberto/php-employee-management-v2/issues"
+  },
+  "homepage": "https://github.com/badyalberto/php-employee-management-v2#readme"
 }

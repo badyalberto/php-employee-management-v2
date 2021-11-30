@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  <?php include BASE_PATH . "/assets/html/header.html"; ?>
+  <?php include BASE_PATH . "/assets/html/header.php"; ?>
   <main class="container-xl mx-auto pb-90">
     <form action="./library/employeeController.php?update=true" method="POST" class="container-md">
       <h3>Employee: </h3>

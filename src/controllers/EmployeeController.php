@@ -10,6 +10,10 @@ class EmployeeController extends Controller
 	{
 		$this->model = new EmployeeModel();
 		$this->view = new View();
+
+		if(!isset($_SESSION["username"])) {
+			header("Location: " . BASE_URL . "/");
+		}
 	}
 
 	// Metodos que devuelven JSON

@@ -4,7 +4,7 @@
 			<a class="navbar-brand">
 				<img
 					class="mr-2"
-					src="../node_modules/bootstrap-icons/icons/file-earmark-person.svg"
+					src="<?= BASE_URL ?>/node_modules/bootstrap-icons/icons/file-earmark-person.svg"
 					alt=""
 					width="20"
 					height="20"
@@ -24,11 +24,11 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link" href="/employee" id="dashboard">Dashboard</a></li>
-					<li class="nav-item"><a class="nav-link" href="/employee/new" id="employee">Employee</a></li>
+					<li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/employee" id="dashboard">Dashboard</a></li>
+					<li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/employee/new" id="employee">Employee</a></li>
 				</ul>
 				<div class="d-flex">
-					<a href="/" class="ml-auto text-muted justify-self-end">Logout</a>
+					<a href="<?= BASE_URL ?>/user/logout" class="ml-auto text-muted justify-self-end">Logout</a>
 				</div>
 			</div>
 		</div>

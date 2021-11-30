@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <?php include BASE_PATH . "/assets/html/header.html"; ?>
+  <?php include BASE_PATH . "/assets/html/header.php"; ?>
   <main class="container-xl mx-auto pb-90">
     <form action="/employee/create?reload" method="POST" class="container-md">
       <div class="d-flex justify-content-between align-items-end">

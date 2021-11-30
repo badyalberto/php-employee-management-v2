@@ -2,12 +2,11 @@
 
 abstract class Controller
 {
-	protected array $params;
+	protected ?array $params;
 
 	public function __construct()
 	{
-		// $this->params = $_REQUEST;
-		$this->params = json_decode(file_get_contents('php://input'), true);
+		$this->params = $_REQUEST;
 	}
 
 	public function run(?string $action)

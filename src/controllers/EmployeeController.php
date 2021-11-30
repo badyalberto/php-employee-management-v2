@@ -11,9 +11,14 @@ class EmployeeController extends Controller
 		parent::__construct();
 		$this->model = new EmployeeModel();
 		$this->view = new View();
+
+		if (!SessionHelper::getSessionValue('username')) {
+			header("Location: " . BASE_URL);
+			exit();
+		}
 	}
 
-	// Data Processing
+	// Data Management
 
 	protected function create($params)
 	{
@@ -21,7 +26,7 @@ class EmployeeController extends Controller
 
 		if (isset($params["reload"])) {
 			if (!$result["error"]) {
-				header("Location: /employee");
+				header("Location: " . BASE_URL . "employee");
 			} else {
 				throw new Exception("Employee could not be created.");
 			}
@@ -40,7 +45,7 @@ class EmployeeController extends Controller
 
 		if (isset($params["reload"])) {
 			if (!$result["error"]) {
-				header("Location: /employee");
+				header("Location: " . BASE_URL . "employee");
 			} else {
 				throw new Exception($result["error"]);
 			}
@@ -59,7 +64,7 @@ class EmployeeController extends Controller
 
 		if (isset($params["reload"])) {
 			if (!$result["error"]) {
-				header("Location: /employee");
+				header("Location: " . BASE_URL . "employee");
 			} else {
 				throw new Exception("Employee could not be deleted.");
 			}
@@ -83,7 +88,7 @@ class EmployeeController extends Controller
 		}
 	}
 
-	// View Display
+	// View rendering
 
 	protected function edit($params)
 	{

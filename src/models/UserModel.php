@@ -10,10 +10,31 @@ class UserModel extends Model
 		parent::__construct();
 	}
 
-	public function get()
+	public function get($params)
 	{
 		try {
+			$connection = $this->database->getDatabaseConnection();
+
+			$query = "
+				SELECT user_id,username,password
+				FROM user 
+				WHERE username = :username
+			;";
+			$statment = $connection->prepare($query);
+			$statment->bindParam(":username", $params["username"]);
+			$statment->execute();
+
+			$data = $statment->fetch();
+
+			return [
+				"data" => $data,
+				"error" => null
+			];
 		} catch (Exception $e) {
+			return [
+				"data" => $data,
+				"error" => $e->getMessage(),
+			];
 		}
 	}
 }

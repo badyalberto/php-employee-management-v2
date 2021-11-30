@@ -2,7 +2,7 @@
 
 class View
 {
-	public function render(string $name, array $params)
+	public function render(string $name, array $params = [])
 	{
 		$fullpath = VIEWS . $name . ".php";
 

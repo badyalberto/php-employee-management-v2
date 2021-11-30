@@ -18,8 +18,9 @@
 <body>
   <div id="wrapper">
     <?php include BASE_PATH . "/assets/html/header.html"; ?>
-    <main class="container-fluid">
-      <h3>Employees:</h3>
+    <main class="container-xl">
+      <h1 class="display-6">Dashboard</h1>
+      <hr>
       <div id='grid-table'>
       </div>
     </main>

@@ -86,26 +86,25 @@ class EmployeeModel extends Model
 
 			$statment = $connection->prepare($query);
 
-			$statment->bindParam(":employee_id", $params["employee_id"]);
-			$statment->bindParam(":first_name", $params["first_name"]);
-			$statment->bindParam(":last_name", 	$params["last_name"]);
-			$statment->bindParam(":age", 				$params["age"]);
-			$statment->bindParam(":gender", 		$params["gender"]);
-			$statment->bindParam(":email", 			$params["email"]);
+			$statment->bindParam(":employee_id", 	$params["employee_id"]);
+			$statment->bindParam(":first_name", 	$params["first_name"]);
+			$statment->bindParam(":last_name", 		$params["last_name"]);
+			$statment->bindParam(":age", 					$params["age"]);
+			$statment->bindParam(":gender", 			$params["gender"]);
+			$statment->bindParam(":email", 				$params["email"]);
 			$statment->bindParam(":phone_number", $params["phone_number"]);
 
 			$statment->execute();
+			if (!$statment->rowCount()) throw new Exception("Employee does not exist");
 
 			// Get employee DB ID
 
 			$query = "SELECT id FROM employee WHERE employee_id = :employee_id;";
 
 			$statment = $connection->prepare($query);
-
 			$statment->bindParam(":employee_id", $params["employee_id"]);
 			$statment->execute();
 			$employee_id = $statment->fetch()["id"];
-
 
 			// Update employee's address in DB
 
@@ -120,13 +119,11 @@ class EmployeeModel extends Model
 			;";
 
 			$statment = $connection->prepare($query);
-
 			$statment->bindParam(":employee_id", 	$employee_id);
 			$statment->bindParam(":street", 			$params["street"]);
 			$statment->bindParam(":city", 				$params["city"]);
 			$statment->bindParam(":postal_code", 	$params["postal_code"]);
 			$statment->bindParam(":state", 				$params["state"]);
-
 			$statment->execute();
 
 			$connection->commit();
@@ -154,6 +151,7 @@ class EmployeeModel extends Model
 			$statment = $connection->prepare($query);
 			$statment->bindParam(":employee_id", $params["employee_id"]);
 			$statment->execute();
+			if (!$statment->rowCount()) throw new Exception("Employee did not already exist");
 
 			// Get employee DB ID
 
@@ -162,7 +160,6 @@ class EmployeeModel extends Model
 			$statment = $connection->prepare($query);
 			$statment->bindParam(":employee_id", $params["employee_id"]);
 			$statment->execute();
-
 			$employee_id = $statment->fetch()["id"];
 
 
@@ -199,9 +196,9 @@ class EmployeeModel extends Model
 			;";
 
 			$statment = $connection->prepare($query);
-			$statment->bindParam(":employee_id", $params["employee_id"]);
+			$statment->bindParam(":employee_id", $params["id"]);
 			$statment->execute();
-			$data = $statment->fetchAll();
+			$data = $statment->fetch();
 
 			return [
 				"data" => $data,

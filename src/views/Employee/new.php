@@ -1,4 +1,3 @@
-<!-- TODO Employee view -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,8 +14,12 @@
 <body>
   <?php include BASE_PATH . "/assets/html/header.html"; ?>
   <main class="container-xl mx-auto pb-90">
-    <form action="./library/employeeController.php?update=true" method="POST" class="container-md">
-      <h3>Employee: </h3>
+    <form action="/employee/create?reload" method="POST" class="container-md">
+      <div class="d-flex justify-content-between align-items-end">
+        <h1 class="display-6">Employee</h1>
+        <span class="fw-light">New</span>
+      </div>
+      <hr>
       <div class="row mb-3">
         <div class="form-group col-4">
           <label for="first_name">Name</label>
@@ -66,7 +69,7 @@
           <input name="state" type="text" class="form-control" id="state" required>
         </div>
       </div>
-      <a type="btn" class="btn btn-secondary" href="dashboard.php">Back</a>
+      <a type="btn" class="btn btn-secondary" href="/employee">Back</a>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </main>

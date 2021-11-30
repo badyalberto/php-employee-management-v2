@@ -97,7 +97,8 @@ class EmployeeController extends Controller
 		if ($result["error"]) throw new Exception("Employee could not be loaded.");
 		if (!$result["data"]) throw new Exception("Employee not found.");
 
-		$this->view->render("Employee/edit", $result["data"]);
+		$this->view->employee = $result["data"];
+		$this->view->render("Employee/edit");
 	}
 
 	protected function new()

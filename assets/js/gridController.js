@@ -4,7 +4,7 @@ export const controller = {
 
 		$.ajax({
 			type: "POST",
-			url: "../employee/getAll",
+			url: "./employee/getAll",
 			dataType: "json",
 			data: item,
 			success: function (response) {
@@ -22,7 +22,7 @@ export const controller = {
 
 		$.ajax({
 			type: "POST",
-			url: "../employee/create",
+			url: "./employee/create",
 			dataType: "json",
 			data: item,
 			success: function (response) {
@@ -44,7 +44,7 @@ export const controller = {
 
 		$.ajax({
 			type: "POST",
-			url: "../employee/update",
+			url: "./employee/update",
 			dataType: "json",
 			data: item,
 			success: function (response) {
@@ -66,7 +66,7 @@ export const controller = {
 
 		$.ajax({
 			type: "POST",
-			url: "../employee/delete",
+			url: "./employee/delete",
 			dataType: "json",
 			data: item,
 			success: function (response) {

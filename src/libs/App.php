@@ -23,12 +23,10 @@ class App
 				echo $e->getMessage();
 			}
 		} else {
-			$logged = false;
-
-			if ($logged) {
+			if (!isset($_SESSION['username'])) {
 				require_once VIEWS . "login.php";
 			} else {
-				require_once VIEWS . "Employee/index.php";
+				header("Location: " . BASE_URL . "/employee");
 			}
 		}
 	}

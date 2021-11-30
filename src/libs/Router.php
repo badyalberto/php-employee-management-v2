@@ -14,16 +14,13 @@ class Router
 			$url = trim($url, '/');
 			$url = explode('/', $url);
 
-
 			$this->controllerName = $url[0] ?? null;
 			$this->actionName = 		$url[1] ?? null;
 			$this->id = 						$url[2] ?? null;
-			$this->params =					$_REQUEST;
 		} else {
 			$this->controllerName = null;
 			$this->actionName = 		null;
 			$this->id = 						null;
-			$this->params =					$_REQUEST;
 		}
 	}
 
@@ -40,10 +37,5 @@ class Router
 	public function getId()
 	{
 		return $this->id;
-	}
-
-	public function getParams()
-	{
-		return $this->params;
 	}
 }

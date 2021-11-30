@@ -8,7 +8,8 @@ CREATE TABLE user (
 	username		VARCHAR(64)					NOT NULL,
 	password		VARCHAR(64)					NOT NULL,
 	CONSTRAINT pk_user 							PRIMARY KEY (id),
-	CONSTRAINT uk_user_id 					UNIQUE (user_id)
+	CONSTRAINT uk_user_id 					UNIQUE (user_id),
+	CONSTRAINT uk_username					UNIQUE (username)
 );
 
 CREATE TABLE employee (

@@ -15,10 +15,8 @@ class App
 				$controllerFactory = new ControllerFactory();
 				$controller = $controllerFactory->getController($controllerName);
 
-				$action = $router->getActionName();
-				$params = $router->getParams();
-
-				$controller->run($action, $params);
+				$actionName = $router->getActionName();
+				$controller->run($actionName);
 			} catch (Exception $e) {
 				echo $e->getMessage();
 			}

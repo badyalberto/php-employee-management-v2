@@ -8,8 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Employee Management</title>
 
-  <link rel="stylesheet" href=<?= BASE_URL . "/node_modules/bootstrap/dist/css/bootstrap.min.css" ?>>
-  <script src=<?= BASE_URL . "/node_modules/bootstrap/dist/js/bootstrap.min.js" ?>></script>
+  <link rel="stylesheet" href="<?= BASE_URL . "/node_modules/bootstrap/dist/css/bootstrap.min.css" ?>">
+  <script src="<?= BASE_URL . "/node_modules/bootstrap/dist/js/bootstrap.min.js" ?>"></script>
 </head>
 
 <body>

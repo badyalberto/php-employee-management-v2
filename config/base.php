@@ -15,3 +15,4 @@ foreach ($url as $key => $value) {
 }
 
 define("BASE_URL", $urlResolve);
+//define("BASE_URL", "http://$_SERVER[HTTP_HOST]/");

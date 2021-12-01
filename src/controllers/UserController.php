@@ -56,6 +56,11 @@ class UserController extends Controller
 
 	protected function index()
 	{
+		if (SessionHelper::getSessionValue("username")) {
+			header("Location: " . BASE_URL);
+			exit();
+		}
+
 		$this->view->message = SessionHelper::popSessionValue("message");
 		$this->view->render("Login/index");
 	}

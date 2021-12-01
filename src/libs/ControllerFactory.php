@@ -10,13 +10,13 @@ class ControllerFactory
 		$controller = $name . "Controller";
 
 		if (!file_exists($controllerPath)) {
-			throw new Exception("Path for controller $name does not exist.");
+			throw new Exception("Resource not found.");
 		}
 
 		require_once $controllerPath;
 
 		if (!class_exists($controller)) {
-			throw new Exception("Class for controller $name does not exist.");
+			throw new Exception("Resource not found.");
 		};
 
 		return new $controller();

@@ -18,13 +18,14 @@
 <body>
   <div id="wrapper">
     <?php include BASE_PATH . "/assets/html/header.php"; ?>
-    <main class="container-xl">
+    <?php include BASE_PATH . "/assets/html/notification.php"; ?>
+    <main class="container-xl mt-4 vh-100">
       <h1 class="display-6">Dashboard</h1>
       <hr>
       <div id='grid-table'>
       </div>
     </main>
-    <?php include  "./assets/html/footer.html"; ?>
+    <?php include  "./assets/html/footer.php"; ?>
 </body>
 
 </html>

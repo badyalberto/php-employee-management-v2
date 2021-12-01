@@ -1,3 +1,5 @@
+import { addNotification } from "./notification.js";
+
 export const controller = {
 	loadData: function (item) {
 		const d = $.Deferred();
@@ -8,10 +10,18 @@ export const controller = {
 			dataType: "json",
 			data: item,
 			success: function (response) {
-				d.resolve(response.data);
+				const { message, data } = response;
+
+				if (data) {
+					d.resolve(response.data);
+				} else {
+					addNotification(message);
+					d.reject();
+				}
 			},
 			error: function (xhr, exception) {
-				console.log(`Error: ${xhr} ${exception}`);
+				addNotification({ type: "danger", content: xhr.statusText });
+				d.reject();
 			},
 		});
 
@@ -26,13 +36,13 @@ export const controller = {
 			dataType: "json",
 			data: item,
 			success: function (response) {
-				if (response.type === "danger") {
-					d.reject();
-				} else {
-					d.resolve(response.data);
-				}
+				const { message } = response;
+
+				addNotification(message);
+				message.type === "danger" ? d.reject() : d.resolve();
 			},
 			error: function (xhr) {
+				addNotification({ type: "danger", content: xhr.statusText });
 				d.reject();
 			},
 		});
@@ -48,13 +58,13 @@ export const controller = {
 			dataType: "json",
 			data: item,
 			success: function (response) {
-				if (response.type === "danger") {
-					d.reject();
-				} else {
-					d.resolve(response.data);
-				}
+				const { message } = response;
+
+				addNotification(message);
+				message.type === "danger" ? d.reject() : d.resolve();
 			},
 			error: function (xhr) {
+				addNotification({ type: "danger", content: xhr.statusText });
 				d.reject();
 			},
 		});
@@ -70,13 +80,13 @@ export const controller = {
 			dataType: "json",
 			data: item,
 			success: function (response) {
-				if (response.type === "danger") {
-					d.reject();
-				} else {
-					d.resolve(response.data);
-				}
+				const { message } = response;
+
+				addNotification(message);
+				message.type === "danger" ? d.reject() : d.resolve();
 			},
 			error: function (xhr) {
+				addNotification({ type: "danger", content: xhr.statusText });
 				d.reject();
 			},
 		});

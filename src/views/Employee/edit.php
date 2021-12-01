@@ -13,7 +13,7 @@
 
 <body>
   <?php include BASE_PATH . "/assets/html/header.php"; ?>
-  <main class="container-xl mx-auto pb-90">
+  <main class="container-xl mt-4 mx-auto pb-90">
     <div class="d-flex justify-content-between align-items-end">
       <h1 class="display-6">Employee</h1>
       <span class="fw-light"><?= $this->employee["first_name"] . " " . $this->employee["last_name"] ?></span>
@@ -23,7 +23,7 @@
       <input name="employee_id" type="hidden" required value="<?= $this->employee["employee_id"] ?>">
       <div class="row mb-3">
         <div class="form-group col-4">
-          <label class="mb-3" for="first_name">First name</label>
+          <label class="mb-3" for="first_name">Name</label>
           <input name="first_name" type="text" class="form-control" id="first_name" required value="<?= $this->employee["first_name"] ?>">
         </div>
         <div class="form-group col-4">
@@ -76,7 +76,7 @@
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </main>
-  <?php include BASE_PATH . "/assets/html/footer.html"; ?>
+  <?php include BASE_PATH . "/assets/html/footer.php"; ?>
 </body>
 
 </html>

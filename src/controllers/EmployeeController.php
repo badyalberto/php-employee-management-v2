@@ -1,16 +1,16 @@
 <?php
 
 require_once CLASSES . "Controller.php";
-require_once CLASSES . "View.php";
 require_once MODELS . "EmployeeModel.php";
 
 class EmployeeController extends Controller
 {
+	private EmployeeModel $model;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->model = new EmployeeModel();
-		$this->view = new View();
 
 		if (!SessionHelper::getSessionValue('username')) {
 			header("Location: " . BASE_URL);
@@ -20,59 +20,68 @@ class EmployeeController extends Controller
 
 	// Data Management
 
-	protected function create($params)
+	protected function create()
 	{
-		$result = $this->model->create($params);
+		$result = $this->model->create($this->params);
 
-		if (isset($params["reload"])) {
+		if (isset($this->params["reload"])) {
 			if (!$result["error"]) {
-				header("Location: " . BASE_URL . "employee");
+				SessionHelper::setSessionValue("message", ["type" => "success", "content" => "Employee created successfully."]);
 			} else {
-				throw new Exception("Employee could not be created.");
+				SessionHelper::setSessionValue("message", ["type" => "danger", "content" => "Employee could not be created."]);
 			}
+
+			header("Location: " . BASE_URL . "employee");
+			exit();
 		} else {
 			if (!$result["error"]) {
-				echo json_encode(["type" => "success", "message" => "Employee created successfully."]);
+				echo json_encode(["message" => ["type" => "success", "content" => "Employee created successfully."], "data" => $result["data"]]);
 			} else {
-				echo json_encode(["type" => "danger", "message" => "Employee could not be created."]);
+				echo json_encode(["message" => ["type" => "danger", "content" => "Employee could not be created."]]);
 			}
 		}
 	}
 
-	protected function update($params)
+	protected function update()
 	{
-		$result = $this->model->update($params);
+		$result = $this->model->update($this->params);
 
-		if (isset($params["reload"])) {
+		if (isset($this->params["reload"])) {
 			if (!$result["error"]) {
-				header("Location: " . BASE_URL . "employee");
+				SessionHelper::setSessionValue("message", ["type" => "success", "content" => "Employee updated successfully."]);
 			} else {
-				throw new Exception($result["error"]);
+				SessionHelper::setSessionValue("message", ["type" => "danger", "content" => "Employee could not be updated."]);
 			}
+
+			header("Location: " . BASE_URL . "employee");
+			exit();
 		} else {
 			if (!$result["error"]) {
-				echo json_encode(["type" => "success", "message" => "Employee updated successfully."]);
+				echo json_encode(["message" => ["type" => "success", "content" => "Employee updated successfully."]]);
 			} else {
-				echo json_encode(["type" => "danger", "message" => "Employee could not be updated."]);
+				echo json_encode(["message" => ["type" => "danger", "content" => "Employee could not be updated."]]);
 			}
 		}
 	}
 
-	protected function delete($params)
+	protected function delete()
 	{
-		$result = $this->model->delete($params);
+		$result = $this->model->delete($this->params);
 
-		if (isset($params["reload"])) {
+		if (isset($this->params["reload"])) {
 			if (!$result["error"]) {
-				header("Location: " . BASE_URL . "employee");
+				SessionHelper::setSessionValue("message", ["type" => "success", "content" => "Employee deleted successfully."]);
 			} else {
-				throw new Exception("Employee could not be deleted.");
+				SessionHelper::setSessionValue("message", ["type" => "danger", "content" => "Employee could not be deleted."]);
 			}
+
+			header("Location: " . BASE_URL . "employee");
+			exit();
 		} else {
 			if (!$result["error"]) {
-				echo json_encode(["type" => "success", "message" => "Employee deleted successfully."]);
+				echo json_encode(["message" => ["type" => "success", "content" => "Employee deleted successfully."]]);
 			} else {
-				echo json_encode(["type" => "danger", "message" => "Employee could not be deleted."]);
+				echo json_encode(["message" => ["type" => "danger", "content" => "Employee could not be deleted."]]);
 			}
 		}
 	}
@@ -82,23 +91,18 @@ class EmployeeController extends Controller
 		$result = $this->model->getAll();
 
 		if (!$result["error"]) {
-			echo json_encode(["type" => "success", "message" => "Employees fetched successfully.", "data" => $result["data"]]);
+			echo json_encode(["message" => ["type" => "success", "content" => "Employees fetched successfully."], "data" => $result["data"]]);
 		} else {
-			echo json_encode(["type" => "danger", "message" => "Employees could not be loaded."]);
+			echo json_encode(["message" => ["type" => "danger", "content" => "Employees could not be loaded."]]);
 		}
 	}
 
 	// View rendering
 
-	protected function edit($params)
+	protected function index()
 	{
-		$result = $this->model->get($params);
-
-		if ($result["error"]) throw new Exception("Employee could not be loaded.");
-		if (!$result["data"]) throw new Exception("Employee not found.");
-
-		$this->view->employee = $result["data"];
-		$this->view->render("Employee/edit");
+		$this->view->message = SessionHelper::popSessionValue("message");
+		$this->view->render("Employee/index");
 	}
 
 	protected function new()
@@ -106,8 +110,14 @@ class EmployeeController extends Controller
 		$this->view->render("Employee/new");
 	}
 
-	protected function index()
+	protected function edit()
 	{
-		$this->view->render("Employee/index");
+		$result = $this->model->get($this->params);
+
+		if ($result["error"]) throw new Exception("Employee could not be loaded.");
+		if (!$result["data"]) throw new Exception("Employee not found.");
+
+		$this->view->employee = $result["data"];
+		$this->view->render("Employee/edit");
 	}
 }

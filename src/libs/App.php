@@ -2,6 +2,8 @@
 
 require_once LIBS . "ControllerFactory.php";
 require_once LIBS . "Router.php";
+require_once CONTROLLERS . "ErrorController.php";
+require_once CONTROLLERS . "UserController.php";
 
 class App
 {
@@ -9,24 +11,28 @@ class App
 	{
 		$router = new Router();
 		$controllerName = $router->getControllerName();
+		$actionName = 		$router->getActionName();
 
-		if ($controllerName) {
-			try {
+		try {
+			if ($controllerName) {
 				$controllerFactory = new ControllerFactory();
 				$controller = $controllerFactory->getController($controllerName);
-
-				$actionName = $router->getActionName();
-				$controller->run($actionName);
-			} catch (Exception $e) {
-				echo $e->getMessage();
-			}
-		} else {
-			if (!SessionHelper::getSessionValue('username')) {
-				require_once VIEWS . "login.php";
+				$controller->setParams($_REQUEST);
+				$controller->setAction($actionName);
+				$controller->run();
 			} else {
-				header("Location: " . BASE_URL . "employee");
-				exit();
+				if (SessionHelper::getSessionValue('username')) {
+					header("Location: " . BASE_URL . "employee");
+					exit();
+				}
+
+				$controller = new UserController();
+				$controller->run();
 			}
+		} catch (Exception $e) {
+			$controller = new ErrorController();
+			$controller->setParams(["message" => $e->getMessage()]);
+			$controller->run();
 		}
 	}
 }

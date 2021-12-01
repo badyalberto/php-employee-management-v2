@@ -1,4 +1,4 @@
-<header class="bg-light mb-4">
+<header class="bg-light">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
 			<a class="navbar-brand">
@@ -14,7 +14,7 @@
 					<li class="nav-item"><a class="nav-link" href="<?= BASE_URL . "employee/new" ?>" id="employee">Employee</a></li>
 				</ul>
 				<div class="d-flex">
-					<a href="<?= BASE_URL ?>/user/logout" class="ml-auto text-muted justify-self-end">Logout</a>
+					<a href="<?= BASE_URL . "user/logout" ?>" class="ml-auto text-muted justify-self-end">Logout</a>
 				</div>
 			</div>
 		</div>

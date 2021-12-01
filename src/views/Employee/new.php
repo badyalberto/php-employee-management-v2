@@ -13,7 +13,7 @@
 
 <body>
   <?php include BASE_PATH . "/assets/html/header.php"; ?>
-  <main class="container-xl mx-auto pb-90">
+  <main class="container-xl mt-4 mx-auto pb-90">
     <form action="/employee/create?reload" method="POST" class="container-md">
       <div class="d-flex justify-content-between align-items-end">
         <h1 class="display-6">Employee</h1>
@@ -22,19 +22,19 @@
       <hr>
       <div class="row mb-3">
         <div class="form-group col-4">
-          <label for="first_name">Name</label>
+          <label class="mb-3" for="first_name">Name</label>
           <input name="first_name" type="text" class="form-control" id="first_name" required>
         </div>
         <div class="form-group col-4">
-          <label for="last_name">Last Name</label>
+          <label class="mb-3" for="last_name">Last Name</label>
           <input name="last_name" type="text" class="form-control" id="last_name" required>
         </div>
         <div class="form-group col-2">
-          <label for="age">Age</label>
+          <label class="mb-3" for="age">Age</label>
           <input name="age" type="number" class="form-control" id="age" required>
         </div>
         <div class="form-group col-2">
-          <label for="gender">Example select</label>
+          <label class="mb-3" for="gender">Gender</label>
           <select class="form-control" id="gender" name="gender" required>
             <option value="M" selected>Male</option>
             <option value="F">Female</option>
@@ -43,29 +43,29 @@
       </div>
       <div class="row mb-3">
         <div class="form-group col-6">
-          <label for="email">Email address</label>
+          <label class="mb-3" for="email">Email address</label>
           <input name="email" type="email" class="form-control" id="email" required>
         </div>
         <div class="form-group col-6">
-          <label for="phone_number">Phone Number</label>
+          <label class="mb-3" for="phone_number">Phone Number</label>
           <input name="phone_number" type="number" class="form-control" id="phone_number" required>
         </div>
       </div>
       <div class="row mb-3">
         <div class="form-group col-3">
-          <label for="street">Street Address</label>
+          <label class="mb-3" for="street">Street Address</label>
           <input name="street" type="text" class="form-control" id="street" required>
         </div>
         <div class="form-group col-3">
-          <label for="city">City</label>
+          <label class="mb-3" for="city">City</label>
           <input name="city" type="text" class="form-control" id="city" required>
         </div>
         <div class="form-group col-3">
-          <label for="postal_code">Postal Code</label>
+          <label class="mb-3" for="postal_code">Postal Code</label>
           <input name="postal_code" type="text" class="form-control" id="postal_code" required>
         </div>
         <div class="form-group col-3">
-          <label for="state">State</label>
+          <label class="mb-3" for="state">State</label>
           <input name="state" type="text" class="form-control" id="state" required>
         </div>
       </div>
@@ -73,7 +73,7 @@
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </main>
-  <?php include BASE_PATH . "/assets/html/footer.html"; ?>
+  <?php include BASE_PATH . "/assets/html/footer.php"; ?>
 </body>
 
 </html>

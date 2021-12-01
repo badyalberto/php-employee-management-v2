@@ -10,7 +10,7 @@ class EmployeeModel extends Model
 		parent::__construct();
 	}
 
-	public function create($params)
+	public function create(array $params)
 	{
 		try {
 			$connection = $this->database->getDatabaseConnection();
@@ -23,16 +23,16 @@ class EmployeeModel extends Model
 				VALUES (:first_name, :last_name, :age, :gender, :email, :phone_number)
 			";
 
-			$statment = $connection->prepare($query);
+			$statement = $connection->prepare($query);
 
-			$statment->bindParam(":first_name", $params["first_name"]);
-			$statment->bindParam(":last_name", 	$params["last_name"]);
-			$statment->bindParam(":age", 				$params["age"]);
-			$statment->bindParam(":gender", 		$params["gender"]);
-			$statment->bindParam(":email", 			$params["email"]);
-			$statment->bindParam(":phone_number", $params["phone_number"]);
+			$statement->bindParam(":first_name", 		$params["first_name"]);
+			$statement->bindParam(":last_name", 		$params["last_name"]);
+			$statement->bindParam(":age", 					$params["age"]);
+			$statement->bindParam(":gender", 				$params["gender"]);
+			$statement->bindParam(":email", 				$params["email"]);
+			$statement->bindParam(":phone_number", 	$params["phone_number"]);
 
-			$statment->execute();
+			$statement->execute();
 			$employee_id = $connection->lastInsertId();
 
 			// Adding employee's address in DB
@@ -42,30 +42,34 @@ class EmployeeModel extends Model
 				VALUES (:employee_id, :street, :city, :postal_code, :state)
 			";
 
-			$statment = $connection->prepare($query);
+			$statement = $connection->prepare($query);
 
-			$statment->bindParam(":employee_id", 	$employee_id);
-			$statment->bindParam(":street", 			$params["street"]);
-			$statment->bindParam(":city", 				$params["city"]);
-			$statment->bindParam(":postal_code", 	$params["postal_code"]);
-			$statment->bindParam(":state", 				$params["state"]);
+			$statement->bindParam(":employee_id", 	$employee_id);
+			$statement->bindParam(":street", 				$params["street"]);
+			$statement->bindParam(":city", 					$params["city"]);
+			$statement->bindParam(":postal_code", 	$params["postal_code"]);
+			$statement->bindParam(":state", 				$params["state"]);
 
-			$statment->execute();
+			$statement->execute();
 			$connection->commit();
 
+			$uuid = $this->getUUIDByID($employee_id);
+
 			return [
+				"data" => ["employee_id" => $uuid, "id" => $employee_id],
 				"error" => null
 			];
 		} catch (Exception $e) {
 			$connection->rollBack();
 
 			return [
+				"data" => null,
 				"error" => $e->getMessage()
 			];
 		}
 	}
 
-	public function update($params)
+	public function update(array $params)
 	{
 		try {
 			$connection = $this->database->getDatabaseConnection();
@@ -84,27 +88,23 @@ class EmployeeModel extends Model
 				WHERE employee_id = :employee_id;
 			;";
 
-			$statment = $connection->prepare($query);
+			$statement = $connection->prepare($query);
 
-			$statment->bindParam(":employee_id", 	$params["employee_id"]);
-			$statment->bindParam(":first_name", 	$params["first_name"]);
-			$statment->bindParam(":last_name", 		$params["last_name"]);
-			$statment->bindParam(":age", 					$params["age"]);
-			$statment->bindParam(":gender", 			$params["gender"]);
-			$statment->bindParam(":email", 				$params["email"]);
-			$statment->bindParam(":phone_number", $params["phone_number"]);
+			$statement->bindParam(":employee_id", 	$params["employee_id"]);
+			$statement->bindParam(":first_name", 		$params["first_name"]);
+			$statement->bindParam(":last_name", 		$params["last_name"]);
+			$statement->bindParam(":age", 					$params["age"]);
+			$statement->bindParam(":gender", 				$params["gender"]);
+			$statement->bindParam(":email", 				$params["email"]);
+			$statement->bindParam(":phone_number", 	$params["phone_number"]);
 
-			$statment->execute();
-			if (!$statment->rowCount()) throw new Exception("Employee does not exist");
+			$statement->execute();
 
-			// Get employee DB ID
+			if (!$statement->rowCount()) throw new Exception("Employee does not exist");
 
-			$query = "SELECT id FROM employee WHERE employee_id = :employee_id;";
+			// Get employee ID from UUID
 
-			$statment = $connection->prepare($query);
-			$statment->bindParam(":employee_id", $params["employee_id"]);
-			$statment->execute();
-			$employee_id = $statment->fetch()["id"];
+			$employee_id = $this->getIDByUUID($params["employee_id"]);
 
 			// Update employee's address in DB
 
@@ -118,13 +118,13 @@ class EmployeeModel extends Model
 				WHERE employee_id = :employee_id
 			;";
 
-			$statment = $connection->prepare($query);
-			$statment->bindParam(":employee_id", 	$employee_id);
-			$statment->bindParam(":street", 			$params["street"]);
-			$statment->bindParam(":city", 				$params["city"]);
-			$statment->bindParam(":postal_code", 	$params["postal_code"]);
-			$statment->bindParam(":state", 				$params["state"]);
-			$statment->execute();
+			$statement = $connection->prepare($query);
+			$statement->bindParam(":employee_id", 	$employee_id);
+			$statement->bindParam(":street", 				$params["street"]);
+			$statement->bindParam(":city", 					$params["city"]);
+			$statement->bindParam(":postal_code", 	$params["postal_code"]);
+			$statement->bindParam(":state", 				$params["state"]);
+			$statement->execute();
 
 			$connection->commit();
 
@@ -134,7 +134,7 @@ class EmployeeModel extends Model
 		}
 	}
 
-	public function delete($params)
+	public function delete(array $params)
 	{
 		try {
 			$connection = $this->database->getDatabaseConnection();
@@ -148,20 +148,15 @@ class EmployeeModel extends Model
 				WHERE employee_id = :employee_id;
 			;";
 
-			$statment = $connection->prepare($query);
-			$statment->bindParam(":employee_id", $params["employee_id"]);
-			$statment->execute();
-			if (!$statment->rowCount()) throw new Exception("Employee did not already exist");
+			$statement = $connection->prepare($query);
+			$statement->bindParam(":employee_id", $params["employee_id"]);
+			$statement->execute();
 
-			// Get employee DB ID
+			if (!$statement->rowCount()) throw new Exception("Employee did not already exist");
 
-			$query = "SELECT id FROM employee WHERE employee_id = :employee_id;";
+			// Get employee ID from UUID
 
-			$statment = $connection->prepare($query);
-			$statment->bindParam(":employee_id", $params["employee_id"]);
-			$statment->execute();
-			$employee_id = $statment->fetch()["id"];
-
+			$employee_id = $this->getIDByUUID($params["employee_id"]);
 
 			// Update employee's address in DB
 
@@ -171,9 +166,9 @@ class EmployeeModel extends Model
 				WHERE employee_id = :employee_id
 			;";
 
-			$statment = $connection->prepare($query);
-			$statment->bindParam(":employee_id", 	$employee_id);
-			$statment->execute();
+			$statement = $connection->prepare($query);
+			$statement->bindParam(":employee_id", $employee_id);
+			$statement->execute();
 
 			$connection->commit();
 
@@ -183,7 +178,7 @@ class EmployeeModel extends Model
 		}
 	}
 
-	public function get($params)
+	public function get(array $params)
 	{
 		try {
 			$connection = $this->database->getDatabaseConnection();
@@ -195,10 +190,10 @@ class EmployeeModel extends Model
 				WHERE e.employee_id = :employee_id
 			;";
 
-			$statment = $connection->prepare($query);
-			$statment->bindParam(":employee_id", $params["id"]);
-			$statment->execute();
-			$data = $statment->fetch();
+			$statement = $connection->prepare($query);
+			$statement->bindParam(":employee_id", $params["id"]);
+			$statement->execute();
+			$data = $statement->fetch();
 
 			return [
 				"data" => $data,
@@ -224,9 +219,9 @@ class EmployeeModel extends Model
 				WHERE e.deleted_at IS NULL
 			;";
 
-			$statment = $connection->prepare($query);
-			$statment->execute();
-			$data = $statment->fetchAll();
+			$statement = $connection->prepare($query);
+			$statement->execute();
+			$data = $statement->fetchAll();
 
 			return [
 				"data" => $data,
@@ -238,5 +233,31 @@ class EmployeeModel extends Model
 				"error" => $e->getMessage(),
 			];
 		}
+	}
+
+	private function getIDByUUID($uuid)
+	{
+		$connection = $this->database->getDatabaseConnection();
+
+		$query = "SELECT id FROM employee WHERE employee_id = :employee_id;";
+
+		$statement = $connection->prepare($query);
+		$statement->bindParam(":employee_id", $uuid);
+		$statement->execute();
+
+		return $statement->rowCount() ? $statement->fetch()["id"] : null;
+	}
+
+	private function getUUIDByID($id)
+	{
+		$connection = $this->database->getDatabaseConnection();
+
+		$query = "SELECT employee_id FROM employee WHERE id = :id;";
+
+		$statement = $connection->prepare($query);
+		$statement->bindParam(":id", $id);
+		$statement->execute();
+
+		return $statement->rowCount() ? $statement->fetch()["employee_id"] : null;
 	}
 }

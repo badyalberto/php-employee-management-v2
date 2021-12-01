@@ -61,10 +61,13 @@ import { controller } from "./gridController.js";
 			{
 				title: "Gender",
 				name: "gender",
-				type: "text",
-				validate: function (value) {
-					return ["M", "F"].includes(value);
-				},
+				type: "select",
+				valueField: "value",
+				textField: "text",
+				items: [
+					{ value: "M", text: "Male" },
+					{ value: "F", text: "Female" },
+				],
 			},
 			{
 				title: "Street",

@@ -12,15 +12,15 @@ export const controller = {
 			success: function (response) {
 				const { message, data } = response;
 
-				if (data) {
-					d.resolve(response.data);
-				} else {
+				if (message.type === "danger" && data) {
 					addNotification(message);
 					d.reject();
+				} else {
+					d.resolve(data);
 				}
 			},
-			error: function (xhr, exception) {
-				addNotification({ type: "danger", content: xhr.statusText });
+			error: function () {
+				addNotification({ type: "danger", content: "Something went wrong." });
 				d.reject();
 			},
 		});
@@ -36,13 +36,14 @@ export const controller = {
 			dataType: "json",
 			data: item,
 			success: function (response) {
-				const { message } = response;
+				const { message, data } = response;
 
 				addNotification(message);
-				message.type === "danger" ? d.reject() : d.resolve();
+
+				message.type === "danger" || !data ? d.reject() : d.resolve({ ...item, ...data });
 			},
-			error: function (xhr) {
-				addNotification({ type: "danger", content: xhr.statusText });
+			error: function () {
+				addNotification({ type: "danger", content: "Something went wrong." });
 				d.reject();
 			},
 		});
@@ -63,8 +64,8 @@ export const controller = {
 				addNotification(message);
 				message.type === "danger" ? d.reject() : d.resolve();
 			},
-			error: function (xhr) {
-				addNotification({ type: "danger", content: xhr.statusText });
+			error: function () {
+				addNotification({ type: "danger", content: "Something went wrong." });
 				d.reject();
 			},
 		});
@@ -85,8 +86,8 @@ export const controller = {
 				addNotification(message);
 				message.type === "danger" ? d.reject() : d.resolve();
 			},
-			error: function (xhr) {
-				addNotification({ type: "danger", content: xhr.statusText });
+			error: function () {
+				addNotification({ type: "danger", content: "Something went wrong." });
 				d.reject();
 			},
 		});

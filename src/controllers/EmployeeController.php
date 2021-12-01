@@ -37,7 +37,7 @@ class EmployeeController extends Controller
 			if (!$result["error"]) {
 				echo json_encode(["message" => ["type" => "success", "content" => "Employee created successfully."], "data" => $result["data"]]);
 			} else {
-				echo json_encode(["message" => ["type" => "danger", "content" => "Employee could not be created."]]);
+				echo json_encode(["message" => ["type" => "danger", "content" => $result["error"]]]);
 			}
 		}
 	}

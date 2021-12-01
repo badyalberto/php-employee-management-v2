@@ -29,6 +29,10 @@ import { controller } from "./gridController.js";
 
 		controller: controller,
 
+		rowClick: function ({ item }) {
+			window.location.href = `/employee/edit?id=${item.employee_id}`;
+		},
+
 		fields: [
 			{
 				title: "employee_id",

@@ -10,26 +10,23 @@ class App
 		$router = new Router();
 		$controllerName = $router->getControllerName();
 
-
 		if ($controllerName) {
 			try {
 				$controllerFactory = new ControllerFactory();
 				$controller = $controllerFactory->getController($controllerName);
-		
-				$action = $router->getActionName();
-				$params = $router->getParams();
-		
-				$controller->run($action, $params);
+
+				$actionName = $router->getActionName();
+				$controller->run($actionName);
 			} catch (Exception $e) {
 				echo $e->getMessage();
 			}
 		} else {
-			if (!isset($_SESSION['username'])) {
+			if (!SessionHelper::getSessionValue('username')) {
 				require_once VIEWS . "login.php";
 			} else {
-				header("Location: " . BASE_URL . "/employee");
+				header("Location: " . BASE_URL . "employee");
+				exit();
 			}
 		}
 	}
 }
-

@@ -8,8 +8,9 @@ class UserController extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
         $this->model = new UserModel();
-		$this->view = new View();
+        $this->view = new View();
     }
 
     protected function login($params)
@@ -20,27 +21,28 @@ class UserController extends Controller
             if (!$result['error']) {
                 $user = $result['data'];
 
-                if ($user && password_verify($_POST["pass"],$user['password'])) {
-                    $_SESSION["username"] = $user['username'];		
-					header("Location: " . BASE_URL . "/");
-					exit();
+                if ($user && password_verify($_POST["pass"], $user['password'])) {
+                    $_SESSION["username"] = $user['username'];
+                    header("Location: " . BASE_URL . "/");
+                    exit();
                 } else {
-					$this->view->message = "Error Credentials";
-					$this->view->render('login', []);
-				}
+                    $this->view->message = "Error Credentials";
+                    $this->view->render('login', []);
+                }
             }
-         
-        }else{
-			$this->view->message = "Username or Password are empty";
-			$this->view->render('login', []);
-		}
+
+        } else {
+            $this->view->message = "Username or Password are empty";
+            $this->view->render('login', []);
+        }
         //echo "Se ha ejecutado el método login de user";
     }
 
     protected function logout()
     {
-        $sh = new SessionHelper();
-        $sh->destroySession();
-        header("Location: " . BASE_URL . "/");
+        SessionHelper::popSessionValue("username");
+
+        header("Location: " . BASE_URL);
+        exit();
     }
 }

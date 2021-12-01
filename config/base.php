@@ -12,7 +12,7 @@ unset($url[2]);
 
 $urlResolve = "http://$_SERVER[HTTP_HOST]/";
 foreach ($url as $key => $value) {
-    $urlResolve = $urlResolve . "/" . $value;
+    $urlResolve = $urlResolve . $value . "/";
 }
 
 define("BASE_URL", $urlResolve);

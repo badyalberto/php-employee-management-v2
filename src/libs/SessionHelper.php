@@ -2,55 +2,73 @@
 
 class SessionHelper
 {
-    public function destroySession()
-    {
+	public static function destroySession()
+	{
 
-        if (ini_get("session.use_cookies")) {
-            $this->destroySessionCookie();
-        }
-        session_unset();
-        session_destroy();
-    }
+		if (ini_get("session.use_cookies")) {
+			self::destroySessionCookie();
+		}
 
-    /*  public function destroySession()
-    {
-    // Start session
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-    }
+		session_unset();
+		session_destroy();
+	}
 
-    //session_start();
+	private static function destroySessionCookie()
+	{
+		if (ini_get("session.use_cookies")) {
+			$params = session_get_cookie_params();
+			setcookie(
+				session_name(),
+				'',
+				time() - 42000,
+				$params["path"],
+				$params["domain"],
+				$params["secure"],
+				$params["httponly"]
+			);
+		}
+	}
 
-    // Unset all session variables
-    unset($_SESSION);
+	public static function checkSession()
+	{
+		$user = 			self::getSessionValue("user");
+		$expiration = self::getSessionValue("expiration");
 
-    // Destroy session cookie
-    //$this->destroySessionCookie();
+		if ($user) {
+			if ($expiration < time()) {
+				self::popSessionValue("user");
+				self::setSessionValue("info", ["Session has expired."]);
+			} else {
+				self::setSessionValue("expiration", time() + 600);
+			}
+		}
+	}
 
-    // Destroy the session
-    session_destroy();
+	public static function setSessionValue(string $key, $value)
+	{
+		$_SESSION[$key] = $value;
+	}
 
-    if (!headers_sent()) {
-    header("Location: ../../index.php");
-    exit;
-    }
+	public static function getSessionValue(string $key)
+	{
+		if (isset($_SESSION[$key])) {
+			$value = $_SESSION[$key];
 
-    //header("Location: ../index.php");
-    }
-     */
-    public function destroySessionCookie()
-    {
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(
-                session_name(),
-                '',
-                time() - 42000,
-                $params["path"],
-                $params["domain"],
-                $params["secure"],
-                $params["httponly"]
-            );
-        }
-    }
+			return $value;
+		}
+
+		return null;
+	}
+
+	public static function popSessionValue(string $key)
+	{
+		if (isset($_SESSION[$key])) {
+			$value = $_SESSION[$key];
+			unset($_SESSION[$key]);
+
+			return $value;
+		}
+
+		return null;
+	}
 }

@@ -13,8 +13,6 @@ class UserModel extends Model
 	public function get($params)
 	{
 		try {
-/* 		 	print_r($params);
-			die();  */
 			$connection = $this->database->getDatabaseConnection();
 
 			$query = "
@@ -32,7 +30,6 @@ class UserModel extends Model
 				"data" => $data,
 				"error" => null
 			];
-
 		} catch (Exception $e) {
 			return [
 				"data" => $data,

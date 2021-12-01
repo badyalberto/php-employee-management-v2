@@ -5,12 +5,13 @@ CREATE DATABASE IF NOT EXISTS employees;
 USE employees;
 
 CREATE TABLE user (
-	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-	user_id CHAR(36) NOT NULL DEFAULT (UUID()),
-	username VARCHAR(64) NOT NULL,
-	password VARCHAR(64) NOT NULL,
-	CONSTRAINT pk_user PRIMARY KEY (id),
-	CONSTRAINT uk_user_id UNIQUE (user_id)
+	id 					BIGINT UNSIGNED 	 	NOT NULL AUTO_INCREMENT,
+	user_id		 	CHAR(36) 						NOT NULL DEFAULT (UUID()),
+	username		VARCHAR(64)					NOT NULL,
+	password		VARCHAR(64)					NOT NULL,
+	CONSTRAINT pk_user 							PRIMARY KEY (id),
+	CONSTRAINT uk_user_id 					UNIQUE (user_id),
+	CONSTRAINT uk_username					UNIQUE (username)
 );
 
 CREATE TABLE employee (
